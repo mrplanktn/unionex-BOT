@@ -122,7 +122,7 @@ class Unionex {
       ...this.headers,
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json; charset=utf-8",
-      origin: "https://fintopio-tg.fintopio.com",
+      origin: "https://activity.unionex.com",
     };
     try {
       await axios.post(url, {}, { headers });
@@ -293,8 +293,9 @@ class Unionex {
 
 if (require.main === module) {
   const unionex = new Unionex();
-  Unionex.main().catch((err) => {
+  unionex.main().catch((err) => {
     console.error(err);
     process.exit(1);
   });
 }
+
