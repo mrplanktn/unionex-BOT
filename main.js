@@ -58,13 +58,24 @@ class Unionex {
     const headers = { ...this.headers, Webapp: "true" };
 
     try {
-      const response = await axios.get(`${url}?${userData}`, { headers });
-      return response.data.token;
+        console.log(`Requesting authentication with URL: ${url}?${userData}`);
+        const response = await axios.get(`${url}?${userData}`, { headers });
+        return response.data.token;
     } catch (error) {
-      this.log(`Authentication error: ${error.message}`, "red");
-      return null;
+        if (error.response) {
+            // Server responded with a status other than 2xx
+            this.log(`Authentication error: ${error.response.status} ${error.response.statusText}`, "red");
+        } else if (error.request) {
+            // Request was made but no response received
+            this.log(`No response received: ${error.message}`, "red");
+        } else {
+            // Something happened in setting up the request
+            this.log(`Request setup error: ${error.message}`, "red");
+        }
+        return null;
     }
-  }
+}
+
 
   async getProfile(token) {
     const url = `${this.baseUrl}/referrals/data`;
